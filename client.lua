@@ -90,7 +90,7 @@ function AracCikart(source)
 	end
 end
 
-function AracSil()
+function AracSil(source)
     local player = PlayerPedId()
     local xPlayer = ESX.GetPlayerFromId(source)
     local vehicle = GetVehiclePedIsIn(player, false)
