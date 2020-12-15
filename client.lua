@@ -77,8 +77,8 @@ function AracCikart()
 		ESX.Game.SpawnVehicle('utillitruck3', vector3(-337.037, -1018.13, 30.384), 250.0, function(vehicle)
 			local plate = 'WORK' .. math.random(100, 900)
 			SetVehicleNumberPlateText(vehicle, plate)
-			local plate2 = GetVehicleNumberPlateText(vehicle)
-			exports['hsn-hotwire']:AddKeys(plate2)
+			--local plate2 = GetVehicleNumberPlateText(vehicle) -- Eğer hsn-hotwire kullanıyorsanız bu iki satırı açınız.
+			--exports['hsn-hotwire']:AddKeys(plate2)
 			aracalindi = true
 			TaskWarpPedIntoVehicle(player, vehicle, -1)
 		end)
