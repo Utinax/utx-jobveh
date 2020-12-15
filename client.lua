@@ -71,8 +71,9 @@ Citizen.CreateThread(function()
 	end
 end)
 
-function AracCikart()
+function AracCikart(source)
 	local player = PlayerPedId()
+	local xPlayer = ESX.GetPlayerFromId(source)
 	if not aracalindi then
 		ESX.Game.SpawnVehicle('utillitruck3', vector3(-337.037, -1018.13, 30.384), 250.0, function(vehicle)
 			local plate = 'WORK' .. math.random(100, 900)
@@ -82,7 +83,8 @@ function AracCikart()
 			aracalindi = true
 			TaskWarpPedIntoVehicle(player, vehicle, -1)
 		end)
-		TriggerServerEvent('utx-jobveh:takemoney')
+		xPlayer.removeAccountMoney('bank', 2500)
+    		TriggerClientEvent('mythic_notify:client:SendAlert', src, { type = 'inform', text = 'Depozito olarak banka hesabınızdan 2500$ kesildi!'} )
 	else
 		ESX.ShowNotification('Zaten araç almışsınız!')
 	end
@@ -90,13 +92,15 @@ end
 
 function AracSil()
     local player = PlayerPedId()
+    local xPlayer = ESX.GetPlayerFromId(source)
     local vehicle = GetVehiclePedIsIn(player, false)
     local driver = GetPedInVehicleSeat(vehicle, -1)
     local model = GetEntityModel(vehicle)
     if aracalindi and (player == driver) and model == 2132890591 then
             DeleteVehicle(vehicle)
             aracalindi = false
-            TriggerServerEvent('utx-jobveh:givemoney')
+           xPlayer.addAccountMoney('bank', 2500)
+    	   TriggerClientEvent('mythic_notify:client:SendAlert', src, { type = 'inform', text = 'Depozito olarak alınan 2500$ banka hesabınıza iade edildi!'} )
     else
         ESX.ShowNotification('Bu araç meslek aracı değil!')
     end
