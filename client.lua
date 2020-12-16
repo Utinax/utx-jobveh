@@ -84,7 +84,7 @@ function AracCikart()
 				aracalindi = true
 				TaskWarpPedIntoVehicle(player, vehicle, -1)
 			end)
-			TriggerServerEvent('utx-jobveh:money', 'take', 2500)
+			TriggerServerEvent('utx-jobveh:takemoney')
 		else
 			ESX.ShowNotification('Zaten araç almışsınız!')
 		end
@@ -105,7 +105,11 @@ function AracSil()
 				if model == 2132890591 then
             		DeleteVehicle(vehicle)
             		aracalindi = false
-					TriggerServerEvent('utx-jobveh:money', 'give', 2500)
+					ESX.TriggerServerCallback("utx-jobveh:givemoney", function(CB)
+						if CB then
+						  ESX.ShowNotification('Depozito olarak alınan 2500$ banka hesabınıza iade edildi!')
+						end
+					end, 2500)
 				else
 					ESX.ShowNotification('Bu araç meslek aracı değil!')
 				end
