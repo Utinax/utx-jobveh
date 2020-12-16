@@ -2,18 +2,15 @@ ESX = nil
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
-RegisterNetEvent('utx-jobveh:takemoney')
-AddEventHandler('utx-jobveh:takemoney', function()
+RegisterServerEvent('utx-jobveh:money')
+AddEventHandler('utx-jobveh:money', function(type, miktar)
     local src = source
     local xPlayer = ESX.GetPlayerFromId(src)
-    xPlayer.removeAccountMoney('bank', 2500)
-    TriggerClientEvent('mythic_notify:client:SendAlert', src, { type = 'inform', text = 'Depozito olarak banka hesabınızdan 2500$ kesildi!'} )
-end)
-
-RegisterNetEvent('utx-jobveh:givemoney')
-AddEventHandler('utx-jobveh:givemoney', function()
-    local src = source
-    local xPlayer = ESX.GetPlayerFromId(src)
-    xPlayer.addAccountMoney('bank', 2500)
-    TriggerClientEvent('mythic_notify:client:SendAlert', src, { type = 'inform', text = 'Depozito olarak alınan 2500$ banka hesabınıza iade edildi!'} )
+    if type == 'give' then
+        xPlayer.addAccountMoney('bank', miktar)
+        TriggerClientEvent('esx:showNotification', src, 'Depozito olarak alınan 2500$ banka hesabınıza iade edildi!')
+    elseif type == 'take' then
+        xPlayer.removeAccountMoney('bank', miktar)
+        TriggerClientEvent('esx:showNotification', src, 'Depozito olarak banka hesabınızdan 2500$ kesildi!')
+    end
 end)
