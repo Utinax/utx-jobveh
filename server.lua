@@ -2,15 +2,17 @@ ESX = nil
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
-RegisterServerEvent('utx-jobveh:money')
-AddEventHandler('utx-jobveh:money', function(type, miktar)
+RegisterServerEvent('utx-jobveh:takemoney')
+AddEventHandler('utx-jobveh:takemoney', function()
     local src = source
     local xPlayer = ESX.GetPlayerFromId(src)
-    if type == 'give' then
-        xPlayer.addAccountMoney('bank', miktar)
-        TriggerClientEvent('esx:showNotification', src, 'Depozito olarak alınan 2500$ banka hesabınıza iade edildi!')
-    elseif type == 'take' then
-        xPlayer.removeAccountMoney('bank', miktar)
-        TriggerClientEvent('esx:showNotification', src, 'Depozito olarak banka hesabınızdan 2500$ kesildi!')
-    end
+    xPlayer.removeAccountMoney('bank', 2500)
+    TriggerClientEvent('esx:showNotification', src, 'Depozito olarak banka hesabınızdan 2500$ kesildi!')
+end)
+
+ESX.RegisterServerCallback("utx-jobveh:givemoney", function(source, cb, verilecekpara)
+    local src = source
+    local xPlayer = ESX.GetPlayerFromId(src)
+    xPlayer.addAccountMoney('bank', verilecekpara)
+    cb(true)
 end)
